@@ -2,13 +2,17 @@ package br.com.senior.hotelproj.model.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-public class Checkin {
+public class CheckinEntity {
 	@Id
+	@Column(name="ID_CHECKIN")
 	@GeneratedValue(generator = "increment")
 	private int idCheckin;
 	
@@ -19,6 +23,9 @@ public class Checkin {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataSaidaCheckin;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private HospedeEntity hospede;
 
 	private boolean adicionalVeiculoCheckin;
 
@@ -90,5 +97,9 @@ public class Checkin {
 	 */
 	public void setAdicionalVeiculoCheckin(boolean adicionalVeiculoCheckin) {
 		this.adicionalVeiculoCheckin = adicionalVeiculoCheckin;
+	}
+
+	public HospedeEntity getHospede() {
+		return hospede;
 	}
 }
