@@ -22,8 +22,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
  
         <!-- Annotated entity classes -->
-        <mapping class="br.com.senior.hotelproj.model.entity.Hospede"/>
-        <mapping class="br.com.senior.hotelproj.model.entity.Checkin"/>
+        <mapping class="br.com.senior.hotelproj.model.entity.HospedeEntity"/>
+        <mapping class="br.com.senior.hotelproj.model.entity.CheckinEntity"/>
         
     </session-factory>
 </hibernate-configuration>

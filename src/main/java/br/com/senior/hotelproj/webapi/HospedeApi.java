@@ -8,16 +8,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import br.com.senior.hotelproj.model.entity.Hospede;
+import br.com.senior.hotelproj.model.entity.HospedeEntity;
 
 @Path("hospede")
-public class ApiHospede {
+public class HospedeApi {
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Hospede> consulta() {
-		List<Hospede> retorno = new ArrayList<>();
-		retorno.add(new Hospede());
+	public List<HospedeEntity> consulta() {
+		List<HospedeEntity> retorno = new ArrayList<>();
+		retorno.add(new HospedeEntity());
 		
 		return retorno;
 	}
