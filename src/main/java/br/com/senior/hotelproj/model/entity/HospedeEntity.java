@@ -9,11 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TB_HOSPEDE")
+@Table(name = "TB_HOSPEDE", schema = "PUBLIC")
 public class HospedeEntity {
 
 	@Id
@@ -31,7 +30,7 @@ public class HospedeEntity {
 	@Column(name = "TEL_HOSPEDE")
 	private String telefoneHospede;
 
-	@OneToMany(targetEntity=CheckinEntity.class, cascade=CascadeType.ALL, mappedBy="ID_CHECKIN")
+	@OneToMany(targetEntity=CheckinEntity.class, cascade=CascadeType.ALL, mappedBy="hospede")
 	private List<CheckinEntity> checkins;
 
 	public HospedeEntity() {

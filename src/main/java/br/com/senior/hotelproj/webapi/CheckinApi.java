@@ -15,13 +15,12 @@ public class CheckinApi extends CheckinController {
 
 	public CheckinApi() throws Throwable {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CheckinEntity> consultar() {
-		return super.obterTodos();
+		return super.listarTudo();
 	}
 	
 }

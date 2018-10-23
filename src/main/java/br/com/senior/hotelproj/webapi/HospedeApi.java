@@ -1,24 +1,36 @@
 package br.com.senior.hotelproj.webapi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-import br.com.senior.hotelproj.model.entity.HospedeEntity;
+import br.com.senior.hotelproj.controller.HospedeController;
 
 @Path("hospede")
-public class HospedeApi {
-	
+public class HospedeApi extends HospedeController {
+
+	public HospedeApi() throws Throwable {
+		super();
+	}
+
+	// @GET
+	// @Produces(MediaType.APPLICATION_JSON)
+	// public List<HospedeEntity> consulta() {
+	// List<HospedeEntity> retorno = new ArrayList<>();
+	// retorno.add(new HospedeEntity());
+	//
+	// return retorno;
+	// }
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<HospedeEntity> consulta() {
-		List<HospedeEntity> retorno = new ArrayList<>();
-		retorno.add(new HospedeEntity());
-		
-		return retorno;
+	public Response consulta() {
+		try {
+			return Response.status(200).entity(listarTudo()).build();
+		} catch (Exception ex) {
+			return Response.status(500).entity(ex).build();
+		}
 	}
 }
