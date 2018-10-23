@@ -1,5 +1,6 @@
 package br.com.senior.hotelproj.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,12 +10,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TB_HOSPEDE")
-public class HospedeEntity {
+@Table(name = "TB_HOSPEDE", schema = "PUBLIC")
+public class HospedeEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8876490332693163780L;
 
 	@Id
 	@Column(name = "ID_HOSPEDE")
@@ -31,7 +36,7 @@ public class HospedeEntity {
 	@Column(name = "TEL_HOSPEDE")
 	private String telefoneHospede;
 
-	@OneToMany(targetEntity=CheckinEntity.class, cascade=CascadeType.ALL, mappedBy="ID_CHECKIN")
+	@OneToMany(targetEntity=CheckinEntity.class, cascade=CascadeType.ALL, mappedBy="hospede")
 	private List<CheckinEntity> checkins;
 
 	public HospedeEntity() {

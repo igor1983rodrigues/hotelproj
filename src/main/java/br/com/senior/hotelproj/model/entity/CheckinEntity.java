@@ -1,33 +1,51 @@
 package br.com.senior.hotelproj.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import javax.enterprise.inject.Default;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
-public class CheckinEntity {
+@Entity
+@Table(name = "TB_CHECKIN", schema = "PUBLIC")
+public class CheckinEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2734002046870572283L;
+
 	@Id
 	@Column(name="ID_CHECKIN")
 	@GeneratedValue(generator = "increment")
 	private int idCheckin;
 	
+	@Column(name = "ID_HOSPEDE")
 	private int idHospede;
 
+	@NotNull
+	@Default
+	@Column(name = "DT_ENTRADA_CHECKIN")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataEntradaCheckin;
 
+	@Column(name = "DT_SAIDA_CHECKIN")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataSaidaCheckin;
 	
+	@Column(name = "ADD_VEICULO_CHECKIN")
+	private boolean adicionalVeiculoCheckin;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private HospedeEntity hospede;
-
-	private boolean adicionalVeiculoCheckin;
 
 	/**
 	 * @return the idCheckin

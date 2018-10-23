@@ -1,11 +1,13 @@
 package br.com.senior.hotelproj.model.baserepository;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -36,32 +38,32 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public void inserir(T model, String mensagem) {
+	public void inserir(T model) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
 			session.save(model);
 			session.getTransaction().commit();
 
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+		} catch (Exception ex) {
 			session.getTransaction().rollback();
+			throw ex;
 		} finally {
 			session.close();
 		}
 	}
 
 	@Override
-	public void alterar(T model, String mensagem) {
+	public void alterar(T model) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
 			session.saveOrUpdate(model);
 			session.getTransaction().commit();
 
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+		} catch (Exception ex) {
 			session.getTransaction().rollback();
+			throw ex;
 		} finally {
 			session.close();
 			// session.disconnect();
@@ -69,7 +71,7 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public void excluir(T model, String mensagem) {
+	public void excluir(T model) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
@@ -85,9 +87,20 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public T obterPorChave(Object parametros) {
-		// TODO Auto-generated method stub
-		return null;
+	public <S extends Serializable> T obterPorChave(S parametros) {
+		Session session = this.sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+			T model = (T)session.get (tipoClasse, parametros);
+			session.getTransaction().commit();
+
+			return model;
+		} catch (Exception ex) {
+			session.getTransaction().rollback();
+			throw ex;
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
@@ -102,6 +115,9 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<T> criterio = builder.createQuery(tipoClasse);
+			Root<T> variableRoot = criterio.from(tipoClasse);
+			criterio.select(variableRoot);			
+			
 			return session.createQuery(criterio).getResultList();
 		} catch (Exception e) {
 			return new ArrayList<>();
