@@ -1,5 +1,6 @@
 package br.com.senior.hotelproj.model.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TB_HOSPEDE", schema = "PUBLIC")
-public class HospedeEntity {
+public class HospedeEntity implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8876490332693163780L;
 
 	@Id
 	@Column(name = "ID_HOSPEDE")

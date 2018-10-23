@@ -1,5 +1,6 @@
 package br.com.senior.hotelproj.model.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.enterprise.inject.Default;
@@ -16,7 +17,12 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TB_CHECKIN", schema = "PUBLIC")
-public class CheckinEntity {
+public class CheckinEntity implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2734002046870572283L;
+
 	@Id
 	@Column(name="ID_CHECKIN")
 	@GeneratedValue(generator = "increment")
