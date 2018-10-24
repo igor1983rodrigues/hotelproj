@@ -3,7 +3,6 @@ package br.com.senior.hotelproj.model.baserepository;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -13,8 +12,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
+
 import br.com.senior.hotelproj.model.baseinterface.IBaseDaoInterface;
 import br.com.senior.hotelproj.model.baseinterface.ICriteriaFiltro;
+import br.com.senior.hotelproj.model.baseinterface.ICriteriaQueryJoin;
+import br.com.senior.hotelproj.model.baseinterface.ICriteriaQueryJoinResultado;
 
 public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	private final Class<T> tipoClasse;
@@ -37,6 +40,42 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 		}
 	}
 
+	public <T1, T2, TResult> List<TResult> queryJoin(ICriteriaQueryJoin<T1, T2> fnCriterio,
+			ICriteriaQueryJoinResultado<T1, T2, TResult> fnResposta, Class<T1> c1, Class<T2> c2,
+			Class<TResult> cResult) {
+
+		Session session = this.sessionFactory.openSession();
+		try {
+			session.beginTransaction();
+
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Object[]> criteriaQuery = builder.createQuery(Object[].class);
+
+			Root<T1> rootT1 = criteriaQuery.from(c1);
+			Root<T2> rootT2 = criteriaQuery.from(c2);
+			criteriaQuery.multiselect(rootT1, rootT2);
+
+			fnCriterio.executar(builder, criteriaQuery, rootT1, rootT2);
+
+			Query<Object[]> query = session.createQuery(criteriaQuery);
+
+			List<TResult> retorno = new ArrayList<>();
+			for (Object[] objetos : query.getResultList()) {
+				retorno.add(fnResposta.executar(c1.cast(objetos[0]), c2.cast(objetos[1])));
+			}
+
+			session.flush();
+			session.close();
+
+			return retorno;
+
+		} catch (Exception ex) {
+			session.flush();
+			session.close();
+			return new ArrayList<>();
+		}
+	}
+
 	@Override
 	public void inserir(T model) {
 		Session session = this.sessionFactory.openSession();
@@ -44,12 +83,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.save(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -60,13 +101,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.saveOrUpdate(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
-			// session.disconnect();
+			throw ex;
 		}
 	}
 
@@ -77,12 +119,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.delete(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -91,15 +135,15 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
-			T model = (T)session.get (tipoClasse, parametros);
-			session.getTransaction().commit();
+			T model = (T) session.get(tipoClasse, parametros);
+			session.flush();
+			session.close();
 
 			return model;
 		} catch (Exception ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -107,22 +151,27 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	public List<T> obter(ICriteriaFiltro<T> filtrar) {
 		Session session = this.sessionFactory.openSession();
 		try {
+			session.beginTransaction();
+
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 
-			
 			CriteriaQuery<T> criterio = builder.createQuery(tipoClasse);
-			
-			
+
 			Root<T> variableRoot = criterio.from(tipoClasse);
-			criterio.select(variableRoot);		
-			
+			criterio.select(variableRoot);
+
 			filtrar.executar(builder, criterio, variableRoot);
-			
-			return session.createQuery(criterio).getResultList();
-		} catch (Exception e) {
-			return new ArrayList<>();
-		} finally {
+
+			List<T> retorno = session.createQuery(criterio).getResultList();
+
+			session.flush();
 			session.close();
+
+			return retorno;
+		} catch (Exception e) {
+			session.flush();
+			session.close();
+			return new ArrayList<>();
 		}
 	}
 
@@ -130,16 +179,21 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	public List<T> obterTodos() {
 		Session session = this.sessionFactory.openSession();
 		try {
+			session.beginTransaction();
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<T> criterio = builder.createQuery(tipoClasse);
 			Root<T> variableRoot = criterio.from(tipoClasse);
-			criterio.select(variableRoot);			
-			
-			return session.createQuery(criterio).getResultList();
-		} catch (Exception e) {
-			return new ArrayList<>();
-		} finally {
+			criterio.select(variableRoot);
+
+			List<T> retorno = session.createQuery(criterio).getResultList();
+			session.flush();
 			session.close();
+
+			return retorno;
+		} catch (Exception e) {
+			session.flush();
+			session.close();
+			return new ArrayList<>();
 		}
 	}
 

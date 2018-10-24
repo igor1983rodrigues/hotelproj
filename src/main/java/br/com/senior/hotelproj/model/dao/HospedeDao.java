@@ -16,7 +16,7 @@ public class HospedeDao extends BaseDaoRepository<HospedeEntity> implements IHos
 	public List<HospedeEntity> obterPorNome(String nomeHospede) {
 		return obter((builder, criterio, variableRoot) -> {
 			criterio.select(variableRoot)
-					.where(builder.like(variableRoot.get("NOME_HOSPEDE"), String.format("%%%s%%", nomeHospede)));
+					.where(builder.like(variableRoot.get("nomeHospede"), String.format("%%%s%%", nomeHospede)));
 
 		});
 	}
@@ -24,7 +24,7 @@ public class HospedeDao extends BaseDaoRepository<HospedeEntity> implements IHos
 	@Override
 	public List<HospedeEntity> obterPorTelefone(String telefoneHospede) {
 		return obter((builder, criterio, variableRoot) -> {
-			criterio.select(variableRoot).where(builder.equal(variableRoot.get("TEL_HOSPEDE"), telefoneHospede));
+			criterio.select(variableRoot).where(builder.equal(variableRoot.get("telefoneHospede"), telefoneHospede));
 
 		});
 	}
@@ -32,7 +32,7 @@ public class HospedeDao extends BaseDaoRepository<HospedeEntity> implements IHos
 	@Override
 	public HospedeEntity obterPorDocumento(String documentoHospede) {
 		List<HospedeEntity> lista = obter((builder, criterio, variableRoot) -> {
-			criterio.select(variableRoot).where(builder.equal(variableRoot.get("DOC_HOSPEDE"), documentoHospede));
+			criterio.select(variableRoot).where(builder.equal(variableRoot.get("documentoHospede"), documentoHospede));
 
 		});
 
