@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
@@ -13,6 +14,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.criterion.Criterion;
+
 import br.com.senior.hotelproj.model.baseinterface.IBaseDaoInterface;
 
 public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
@@ -103,9 +106,24 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public List<T> obter(Object parametros) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<T> obter(Criterion ...parametros) {
+		Session session = this.sessionFactory.openSession();
+		try {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+
+			
+			CriteriaQuery<T> criterio = builder.createQuery(tipoClasse);
+			
+			
+			Root<T> variableRoot = criterio.from(tipoClasse);
+			criterio.select(variableRoot);			
+			
+			return session.createQuery(criterio).getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
