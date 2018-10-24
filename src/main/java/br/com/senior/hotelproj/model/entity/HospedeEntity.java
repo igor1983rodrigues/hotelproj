@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -36,7 +37,7 @@ public class HospedeEntity implements Serializable {
 	@Column(name = "TEL_HOSPEDE")
 	private String telefoneHospede;
 
-	@OneToMany(targetEntity=CheckinEntity.class, cascade=CascadeType.ALL, mappedBy="hospede")
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = CheckinEntity.class, cascade = CascadeType.ALL, mappedBy = "hospede")
 	private List<CheckinEntity> checkins;
 
 	public HospedeEntity() {
@@ -72,32 +73,28 @@ public class HospedeEntity implements Serializable {
 	}
 
 	/**
-	 * @param idHospede
-	 *            the idHospede to set
+	 * @param idHospede the idHospede to set
 	 */
 	public void setIdHospede(int idHospede) {
 		this.idHospede = idHospede;
 	}
 
 	/**
-	 * @param nomeHospede
-	 *            the nomeHospede to set
+	 * @param nomeHospede the nomeHospede to set
 	 */
 	public void setNomeHospede(String nomeHospede) {
 		this.nomeHospede = nomeHospede;
 	}
 
 	/**
-	 * @param documentoHospede
-	 *            the documentoHospede to set
+	 * @param documentoHospede the documentoHospede to set
 	 */
 	public void setDocumentoHospede(String documentoHospede) {
 		this.documentoHospede = documentoHospede;
 	}
 
 	/**
-	 * @param telefoneHospede
-	 *            the telefoneHospede to set
+	 * @param telefoneHospede the telefoneHospede to set
 	 */
 	public void setTelefoneHospede(String telefoneHospede) {
 		this.telefoneHospede = telefoneHospede;

@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.model.baserepository;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,7 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public <S extends Serializable> T obterPorChave(S parametros) {
+	public T obterPorChave(int parametros) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();

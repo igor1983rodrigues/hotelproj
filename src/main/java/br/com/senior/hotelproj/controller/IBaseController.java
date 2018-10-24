@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface IBaseController<T> {
@@ -10,7 +9,7 @@ public interface IBaseController<T> {
 
 	void excluir(T model);
 
-	<S extends Serializable> T getPorChave(S id);
+	T getPorChave(int id) throws Throwable;
 
 	List<T> listarTudo();
 }

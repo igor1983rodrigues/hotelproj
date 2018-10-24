@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 import br.com.senior.hotelproj.model.dao.CheckinDao;
@@ -38,7 +37,7 @@ public class CheckinController extends BaseApiController implements IBaseControl
 	}
 
 	@Override
-	public <S extends Serializable> CheckinEntity getPorChave(S id) {
+	public CheckinEntity getPorChave(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
