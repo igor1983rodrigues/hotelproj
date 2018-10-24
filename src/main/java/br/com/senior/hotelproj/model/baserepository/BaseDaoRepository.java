@@ -64,15 +64,15 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 				retorno.add(fnResposta.executar(c1.cast(objetos[0]), c2.cast(objetos[1])));
 			}
 
-			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 			return retorno;
 
 		} catch (Exception ex) {
-			session.getTransaction().rollback();
-			return new ArrayList<>();
-		} finally {
+			session.flush();
 			session.close();
+			return new ArrayList<>();
 		}
 	}
 
@@ -83,12 +83,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.save(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -99,13 +101,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.saveOrUpdate(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
-			// session.disconnect();
+			throw ex;
 		}
 	}
 
@@ -116,12 +119,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			session.beginTransaction();
 			session.delete(model);
 			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 		} catch (Exception ex) {
 			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -131,14 +136,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 		try {
 			session.beginTransaction();
 			T model = (T) session.get(tipoClasse, parametros);
-			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 			return model;
 		} catch (Exception ex) {
-			session.getTransaction().rollback();
-			throw ex;
-		} finally {
+			session.flush();
 			session.close();
+			throw ex;
 		}
 	}
 
@@ -159,14 +164,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 
 			List<T> retorno = session.createQuery(criterio).getResultList();
 
-			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 			return retorno;
 		} catch (Exception e) {
-			session.getTransaction().rollback();
-			return new ArrayList<>();
-		} finally {
+			session.flush();
 			session.close();
+			return new ArrayList<>();
 		}
 	}
 
@@ -181,14 +186,14 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			criterio.select(variableRoot);
 
 			List<T> retorno = session.createQuery(criterio).getResultList();
-			session.getTransaction().commit();
+			session.flush();
+			session.close();
 
 			return retorno;
 		} catch (Exception e) {
-			session.getTransaction().rollback();
-			return new ArrayList<>();
-		} finally {
+			session.flush();
 			session.close();
+			return new ArrayList<>();
 		}
 	}
 

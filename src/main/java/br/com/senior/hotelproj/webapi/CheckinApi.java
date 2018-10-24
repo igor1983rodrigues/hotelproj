@@ -26,7 +26,7 @@ public class CheckinApi extends CheckinController {
 	public Response consultar() {
 		try {
 			System.out.println(Configuracoes.regrasNegocio);
-			return ok(super.listarTudo());
+			return ok(listarTudo());
 		} catch (Throwable ex) {
 			return badRequest(ex);
 		}
@@ -43,7 +43,18 @@ public class CheckinApi extends CheckinController {
 		}
 	}
 
-//	@GET
+	@GET
+	@Path("/emaberto/nome/{nome}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarCheckinEmAbertoPorNome(@PathParam("nome") String nome) {
+		try {
+			return ok(super.obterEmAbertoPorNome(nome));
+		} catch (Throwable ex) {
+			return badRequest(ex);
+		}
+	}
+
+	//	@GET
 //	@Path("/documento/{documento}")
 //	@Produces(MediaType.APPLICATION_JSON)
 //	public Response consultarPorDocumento(@DefaultValue("") @PathParam("documento") String documento) {

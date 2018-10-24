@@ -82,14 +82,19 @@ public class CheckinController extends BaseApiController implements IBaseControl
 		iCheckinDao.excluir(model);
 
 	}
-
+	
 	@Override
-	public List<CheckinEntity> listarTudo() {
+	public List<CheckinEntity> listarTudo()  {
 		return iCheckinDao.obterTodos();
 	}
 
 	@Override
 	public CheckinEntity listarPorChave(int id) {
 		return iCheckinDao.obterPorChave(id);
+	}
+
+	protected List<CheckinEntity> obterEmAbertoPorNome(String nome) {
+		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(nome, null, null);
+		return lista;
 	}
 }
