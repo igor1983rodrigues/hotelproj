@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.controller;
 
-import java.io.Serializable;
 import java.util.List;
 
 import br.com.senior.hotelproj.model.dao.HospedeDao;
@@ -61,7 +60,24 @@ public class HospedeController extends BaseApiController implements IBaseControl
 	}
 
 	@Override
-	public <S extends Serializable> HospedeEntity getPorChave(S id) {
-		return iHospedeDao.obterPorChave(id);
+	public HospedeEntity listarPorChave(int id) throws Throwable {
+		HospedeEntity model = iHospedeDao.obterPorChave(id);
+		
+		if (model == null)
+			throw new Exception("Hospede não encontrado!");
+		return model;
+	}
+
+	public List<HospedeEntity> listarPorNome(String nome) throws Throwable {
+		return iHospedeDao.obterPorNome(nome);
+	}
+
+	public HospedeEntity listarPorDocumento(String nomeDocumento) throws Throwable {
+		HospedeEntity model = iHospedeDao.obterPorDocumento(nomeDocumento);
+		
+		if (model != null)
+			throw new Exception("Hospede não encontrado!");
+		
+		return model;
 	}
 }

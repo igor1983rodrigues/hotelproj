@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.model.baseinterface;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface IBaseDaoInterface<T> {
@@ -11,9 +10,9 @@ public interface IBaseDaoInterface<T> {
 
 	void excluir(T model);
 
-	<S extends Serializable> T obterPorChave(S parametros);
+	T obterPorChave(int parametros);
 
-	List<T> obter(Object parametros);
+	List<T> obter(ICriteriaFiltro<T> filtrar);
 
 	List<T> obterTodos();
 }

@@ -1,6 +1,5 @@
 package br.com.senior.hotelproj.model.baserepository;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +14,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import br.com.senior.hotelproj.model.baseinterface.IBaseDaoInterface;
+import br.com.senior.hotelproj.model.baseinterface.ICriteriaFiltro;
 
 public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	private final Class<T> tipoClasse;
@@ -87,7 +87,7 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public <S extends Serializable> T obterPorChave(S parametros) {
+	public T obterPorChave(int parametros) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			session.beginTransaction();
@@ -104,9 +104,26 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public List<T> obter(Object parametros) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<T> obter(ICriteriaFiltro<T> filtrar) {
+		Session session = this.sessionFactory.openSession();
+		try {
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+
+			
+			CriteriaQuery<T> criterio = builder.createQuery(tipoClasse);
+			
+			
+			Root<T> variableRoot = criterio.from(tipoClasse);
+			criterio.select(variableRoot);		
+			
+			filtrar.executar(builder, criterio, variableRoot);
+			
+			return session.createQuery(criterio).getResultList();
+		} catch (Exception e) {
+			return new ArrayList<>();
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
