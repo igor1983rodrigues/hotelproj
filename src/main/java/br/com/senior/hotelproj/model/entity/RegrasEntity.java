@@ -11,7 +11,7 @@ public class RegrasEntity implements Serializable{
 	private float precoFDS;
 	private float precoAdicionalVeiculoDiario;
 	private float precoAdicionalVeiculoFDS;
-	private float horarioLimite;
+	private String horarioLimite;
 
 	public float getPrecoDiario() {
 		return precoDiario;
@@ -45,11 +45,11 @@ public class RegrasEntity implements Serializable{
 		this.precoAdicionalVeiculoFDS = precoAdicionalVeiculoFDS;
 	}
 
-	public float getHorarioLimite() {
+	public String getHorarioLimite() {
 		return horarioLimite;
 	}
 
-	public void setHorarioLimite(float horarioLimite) {
+	public void setHorarioLimite(String horarioLimite) {
 		this.horarioLimite = horarioLimite;
 	}
 }

@@ -12,10 +12,11 @@ public class Configuracoes {
 	static {
 		try {
 			InputStream streamValor = Thread.currentThread().getContextClassLoader()
-					.getResourceAsStream("/resources/regras.json");
+					.getResourceAsStream("/regras.json");
 			ObjectMapper objectMapper = new ObjectMapper();
 			regrasNegocio = objectMapper.readValue(streamValor, RegrasEntity.class);
 		} catch (IOException e) {
+			System.err.println(e.getMessage());
 			regrasNegocio = new RegrasEntity();
 			e.printStackTrace();
 		}
