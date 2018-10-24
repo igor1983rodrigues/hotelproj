@@ -97,4 +97,14 @@ public class CheckinController extends BaseApiController implements IBaseControl
 		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(nome, null, null);
 		return lista;
 	}
+	
+	protected List<CheckinEntity> obterEmAbertoPorDocumento(String documento) {
+		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(null, documento, null);
+		return lista;
+	}
+
+	protected List<CheckinEntity> obterEmAbertoPorTelefone(String telefone) {
+		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(null, null, telefone);
+		return lista;
+	}
 }

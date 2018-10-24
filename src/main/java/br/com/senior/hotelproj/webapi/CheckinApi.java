@@ -54,6 +54,29 @@ public class CheckinApi extends CheckinController {
 		}
 	}
 
+	@GET
+	@Path("/emaberto/documento/{documento}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarCheckinEmAbertoPorDocumento(@PathParam("documento") String documento) {
+		try {
+			return ok(super.obterEmAbertoPorDocumento(documento));
+		} catch (Throwable ex) {
+			return badRequest(ex);
+		}
+	}
+
+
+	@GET
+	@Path("/emaberto/telefone/{telefone}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarCheckinEmAbertoPorTelefone(@PathParam("telefone") String telefone) {
+		try {
+			return ok(super.obterEmAbertoPorTelefone(telefone));
+		} catch (Throwable ex) {
+			return badRequest(ex);
+		}
+	}
+
 	//	@GET
 //	@Path("/documento/{documento}")
 //	@Produces(MediaType.APPLICATION_JSON)
