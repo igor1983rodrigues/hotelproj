@@ -60,11 +60,24 @@ public class HospedeController extends BaseApiController implements IBaseControl
 	}
 
 	@Override
-	public HospedeEntity getPorChave(int id) throws Throwable {
+	public HospedeEntity listarPorChave(int id) throws Throwable {
 		HospedeEntity model = iHospedeDao.obterPorChave(id);
 		
 		if (model == null)
 			throw new Exception("Hospede não encontrado!");
+		return model;
+	}
+
+	public List<HospedeEntity> listarPorNome(String nome) throws Throwable {
+		return iHospedeDao.obterPorNome(nome);
+	}
+
+	public HospedeEntity listarPorDocumento(String nomeDocumento) throws Throwable {
+		HospedeEntity model = iHospedeDao.obterPorDocumento(nomeDocumento);
+		
+		if (model != null)
+			throw new Exception("Hospede não encontrado!");
+		
 		return model;
 	}
 }

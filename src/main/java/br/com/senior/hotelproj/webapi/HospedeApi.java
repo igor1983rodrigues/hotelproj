@@ -2,6 +2,7 @@ package br.com.senior.hotelproj.webapi;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -36,7 +37,18 @@ public class HospedeApi extends HospedeController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultarPorChave(@PathParam("id") int id) {
 		try {
-			return ok(getPorChave(id));
+			return ok(listarPorChave(id));
+		} catch (Throwable ex) {
+			return badRequest(ex);
+		}
+	}
+
+	@GET
+	@Path("/documento/{documento}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarPorDocumento(@DefaultValue("") @PathParam("documento") String documento) {
+		try {
+			return ok(listarPorDocumento(documento));
 		} catch (Throwable ex) {
 			return badRequest(ex);
 		}

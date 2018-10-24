@@ -1,9 +1,6 @@
 package br.com.senior.hotelproj.model.dao;
 
-import java.util.HashMap;
 import java.util.List;
-
-import org.hibernate.criterion.Restrictions;
 
 import br.com.senior.hotelproj.model.baserepository.BaseDaoRepository;
 import br.com.senior.hotelproj.model.entity.HospedeEntity;
@@ -17,21 +14,32 @@ public class HospedeDao extends BaseDaoRepository<HospedeEntity> implements IHos
 
 	@Override
 	public List<HospedeEntity> obterPorNome(String nomeHospede) {
-		return obter(Restrictions.like("NOME_HOSPEDE", String.format("%%%s%%", nomeHospede)));
+		return obter((builder, criterio, variableRoot) -> {
+			criterio.select(variableRoot)
+					.where(builder.like(variableRoot.get("NOME_HOSPEDE"), String.format("%%%s%%", nomeHospede)));
+
+		});
 	}
 
 	@Override
 	public List<HospedeEntity> obterPorTelefone(String telefoneHospede) {
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("TEL_HOSPEDE", telefoneHospede);
-		return null;
+		return obter((builder, criterio, variableRoot) -> {
+			criterio.select(variableRoot).where(builder.equal(variableRoot.get("TEL_HOSPEDE"), telefoneHospede));
+
+		});
 	}
 
 	@Override
-	public List<HospedeEntity> obterPorDocumento(String documentoHospede) {
-		HashMap<String, Object> params = new HashMap<>();
-		params.put("DOC_HOSPEDE", documentoHospede);
-		return null;
-	}
+	public HospedeEntity obterPorDocumento(String documentoHospede) {
+		List<HospedeEntity> lista = obter((builder, criterio, variableRoot) -> {
+			criterio.select(variableRoot).where(builder.equal(variableRoot.get("DOC_HOSPEDE"), documentoHospede));
 
+		});
+
+		if (lista.size() > 0)
+			return lista.get(0);
+		else
+			return null;
+
+	}
 }

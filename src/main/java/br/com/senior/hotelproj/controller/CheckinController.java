@@ -37,7 +37,7 @@ public class CheckinController extends BaseApiController implements IBaseControl
 	}
 
 	@Override
-	public CheckinEntity getPorChave(int id) {
+	public CheckinEntity listarPorChave(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

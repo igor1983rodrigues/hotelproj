@@ -13,9 +13,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.criterion.Criterion;
-
 import br.com.senior.hotelproj.model.baseinterface.IBaseDaoInterface;
+import br.com.senior.hotelproj.model.baseinterface.ICriteriaFiltro;
 
 public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	private final Class<T> tipoClasse;
@@ -105,7 +104,7 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 	}
 
 	@Override
-	public List<T> obter(Criterion ...parametros) {
+	public List<T> obter(ICriteriaFiltro<T> filtrar) {
 		Session session = this.sessionFactory.openSession();
 		try {
 			CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -115,7 +114,9 @@ public class BaseDaoRepository<T> implements IBaseDaoInterface<T> {
 			
 			
 			Root<T> variableRoot = criterio.from(tipoClasse);
-			criterio.select(variableRoot);			
+			criterio.select(variableRoot);		
+			
+			filtrar.executar(builder, criterio, variableRoot);
 			
 			return session.createQuery(criterio).getResultList();
 		} catch (Exception e) {

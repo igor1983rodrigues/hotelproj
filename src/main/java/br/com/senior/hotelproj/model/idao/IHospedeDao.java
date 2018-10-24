@@ -10,5 +10,5 @@ public interface IHospedeDao extends IBaseDaoInterface<HospedeEntity> {
 
 	List<HospedeEntity> obterPorTelefone(String nomeTelefone);
 
-	List<HospedeEntity> obterPorDocumento(String nomeDocumento);
+	HospedeEntity obterPorDocumento(String nomeDocumento);
 }

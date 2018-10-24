@@ -9,7 +9,7 @@ public interface IBaseController<T> {
 
 	void excluir(T model);
 
-	T getPorChave(int id) throws Throwable;
+	T listarPorChave(int id) throws Throwable;
 
 	List<T> listarTudo();
 }
