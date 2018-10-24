@@ -120,4 +120,8 @@ public class CheckinEntity implements Serializable {
 	public HospedeEntity getHospede() {
 		return hospede;
 	}
+
+	public void setHospede(HospedeEntity hospede) {
+		this.hospede = hospede;
+	}
 }
