@@ -3,6 +3,7 @@ package br.com.senior.hotelproj.model.dao;
 import java.util.List;
 
 import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
 
 import br.com.senior.hotelproj.model.baserepository.BaseDaoRepository;
 import br.com.senior.hotelproj.model.entity.CheckinEntity;
@@ -33,7 +34,8 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 	public List<CheckinEntity> obterEmAberto(String nome, String documento, String telefone) {
 		return queryJoin((builder, criteriaQuery, hospedeRoot, checkinRoot) -> {
 			if (nome != null && !"".equalsIgnoreCase(nome)) {
-				criteriaQuery.where(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
+				Predicate c1 = builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome));
+				criteriaQuery.where(c1);
 			}
 			if (documento != null && !"".equalsIgnoreCase(documento)) {
 				criteriaQuery.where(builder.equal(hospedeRoot.get("documentoHospede"), documento));
