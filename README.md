@@ -39,9 +39,9 @@ Desde já, continuarei a fazer a manutenção da aplicação.
 
 
 # Ficha técnica
-* Servidor Apache Tomcat v9
-* IDE "Eclipse Java EE IDE for Web Developers", versão Oxygen.3a Release (4.7.3a)
-* Banco de Dados PostgreSQL v10
-* Frameworks:
-- Hibernate 5.3.7
-- Jersey 2.27
+  Servidor Apache Tomcat v9
+  IDE "Eclipse Java EE IDE for Web Developers", versão Oxygen.3a Release (4.7.3a)
+  Banco de Dados PostgreSQL v10
+  Frameworks:
+  * Hibernate 5.3.7
+  * Jersey 2.27
