@@ -1,9 +1,9 @@
 # hotelproj
 
-# Descrição
+## Descrição
 Projeto desenvolvido nas camadas de controle, modelo e serviço, com o intuito de realizar checkin em hotel
 
-# Exemplos
+## Exemplos
 HOSPEDES
 * (GET) http://localhost:8080/hotelproj/api/hospede/
 
@@ -38,13 +38,13 @@ Algumas coisas fiquei devendo, pois o Eclipse ainda dava muitos erros, quais con
 Desde já, continuarei a fazer a manutenção da aplicação.
 
 
-# Ficha técnica
+## Ficha técnica
   Servidor Apache Tomcat v9
-  -
+  
   IDE "Eclipse Java EE IDE for Web Developers", versão Oxygen.3a Release (4.7.3a)
-  -
+  
   Banco de Dados PostgreSQL v10
-  -
-  Frameworks:
-  * Hibernate 5.3.7
-  * Jersey 2.27
+  
+  * Frameworks:
+    ** Hibernate 5.3.7
+    ** Jersey 2.27
