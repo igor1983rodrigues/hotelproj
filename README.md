@@ -39,6 +39,8 @@ Desde já, continuarei a fazer a manutenção da aplicação.
 
 
 ## Ficha técnica
+  Oracle JDK v1.8 / OpenJDK v1.8
+
   Servidor Apache Tomcat v9
   
   IDE "Eclipse Java EE IDE for Web Developers", versão Oxygen.3a Release (4.7.3a)
