@@ -44,7 +44,7 @@ public class CheckinEntity implements Serializable {
 	@Column(name = "ADD_VEICULO_CHECKIN")
 	private boolean adicionalVeiculoCheckin;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	private HospedeEntity hospede;
 
 	/**

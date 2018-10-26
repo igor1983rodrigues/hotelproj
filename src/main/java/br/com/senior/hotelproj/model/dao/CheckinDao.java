@@ -1,5 +1,6 @@
 package br.com.senior.hotelproj.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.Path;
@@ -33,20 +34,22 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 	@Override
 	public List<CheckinEntity> obterEmAberto(String nome, String documento, String telefone) {
 		return queryJoin((builder, criteriaQuery, hospedeRoot, checkinRoot) -> {
+			List<Predicate> filtro = new ArrayList<>();
+			
 			if (nome != null && !"".equalsIgnoreCase(nome)) {
-				Predicate c1 = builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome));
-				criteriaQuery.where(c1);
+				filtro.add(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
 			}
 			if (documento != null && !"".equalsIgnoreCase(documento)) {
-				criteriaQuery.where(builder.equal(hospedeRoot.get("documentoHospede"), documento));
+				filtro.add(builder.equal(hospedeRoot.get("documentoHospede"), documento));
 			}
 			if (telefone != null && !"".equalsIgnoreCase(telefone)) {
-				criteriaQuery.where(builder.equal(hospedeRoot.get("telefoneHospede"), telefone));
+				filtro.add(builder.equal(hospedeRoot.get("telefoneHospede"), telefone));
 			}
 
-			criteriaQuery.where(builder.isNull(checkinRoot.get("dataSaidaCheckin")));
-			criteriaQuery.where(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
+			filtro.add(builder.isNull(checkinRoot.get("dataSaidaCheckin")));
+			filtro.add(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
 
+			criteriaQuery.where((Predicate[])filtro.toArray());
 		}, (hospede, checkin) -> {
 			checkin.setHospede(hospede);
 			return checkin;
@@ -56,18 +59,22 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 	@Override
 	public List<CheckinEntity> encerrado(String nome, String documento, String telefone) {
 		return queryJoin((builder, criteriaQuery, hospedeRoot, checkinRoot) -> {
+			List<Predicate> filtro = new ArrayList<>();
+			
 			if (nome != null && !"".equalsIgnoreCase(nome)) {
-				criteriaQuery.where(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
+				filtro.add(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
 			}
 			if (documento != null && !"".equalsIgnoreCase(documento)) {
-				criteriaQuery.where(builder.equal(hospedeRoot.get("documentoHospede"), documento));
+				filtro.add(builder.equal(hospedeRoot.get("documentoHospede"), documento));
 			}
 			if (telefone != null && !"".equalsIgnoreCase(telefone)) {
-				criteriaQuery.where(builder.equal(hospedeRoot.get("telefoneHospede"), telefone));
+				filtro.add(builder.equal(hospedeRoot.get("telefoneHospede"), telefone));
 			}
 
-			criteriaQuery.where(builder.isNotNull(checkinRoot.get("dataSaidaCheckin")));
-			criteriaQuery.where(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
+			filtro.add(builder.isNotNull(checkinRoot.get("dataSaidaCheckin")));
+			filtro.add(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
+
+			criteriaQuery.where((Predicate[])filtro.toArray());
 		}, (hospede, checkin) -> {
 			checkin.setHospede(hospede);
 			return checkin;
