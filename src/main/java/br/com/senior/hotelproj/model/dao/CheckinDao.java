@@ -35,9 +35,10 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 	public List<CheckinEntity> obterEmAberto(String nome, String documento, String telefone) {
 		return queryJoin((builder, criteriaQuery, hospedeRoot, checkinRoot) -> {
 			List<Predicate> filtro = new ArrayList<>();
-			
+
 			if (nome != null && !"".equalsIgnoreCase(nome)) {
-				filtro.add(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
+				String valor = String.format("%%%s%%", nome.toUpperCase());
+				filtro.add(builder.like(builder.upper(hospedeRoot.get("nomeHospede")), valor));
 			}
 			if (documento != null && !"".equalsIgnoreCase(documento)) {
 				filtro.add(builder.equal(hospedeRoot.get("documentoHospede"), documento));
@@ -49,7 +50,7 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 			filtro.add(builder.isNull(checkinRoot.get("dataSaidaCheckin")));
 			filtro.add(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
 
-			criteriaQuery.where((Predicate[])filtro.toArray());
+			criteriaQuery.where(filtro.toArray(new Predicate[] {}));
 		}, (hospede, checkin) -> {
 			checkin.setHospede(hospede);
 			return checkin;
@@ -60,9 +61,10 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 	public List<CheckinEntity> encerrado(String nome, String documento, String telefone) {
 		return queryJoin((builder, criteriaQuery, hospedeRoot, checkinRoot) -> {
 			List<Predicate> filtro = new ArrayList<>();
-			
+
 			if (nome != null && !"".equalsIgnoreCase(nome)) {
-				filtro.add(builder.like(hospedeRoot.get("nomeHospede"), String.format("%%%s%%", nome)));
+				String valor = String.format("%%%s%%", nome.toUpperCase());
+				filtro.add(builder.like(builder.upper(hospedeRoot.get("nomeHospede")), valor));
 			}
 			if (documento != null && !"".equalsIgnoreCase(documento)) {
 				filtro.add(builder.equal(hospedeRoot.get("documentoHospede"), documento));
@@ -74,7 +76,7 @@ public class CheckinDao extends BaseDaoRepository<CheckinEntity> implements IChe
 			filtro.add(builder.isNotNull(checkinRoot.get("dataSaidaCheckin")));
 			filtro.add(builder.equal(hospedeRoot.get("idHospede"), checkinRoot.get("idHospede")));
 
-			criteriaQuery.where((Predicate[])filtro.toArray());
+			criteriaQuery.where(filtro.toArray(new Predicate[] {}));
 		}, (hospede, checkin) -> {
 			checkin.setHospede(hospede);
 			return checkin;
