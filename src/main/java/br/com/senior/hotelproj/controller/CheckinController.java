@@ -33,7 +33,7 @@ public class CheckinController extends BaseApiController implements IBaseControl
 
 		checkin.setDataEntradaCheckin(Calendar.getInstance().getTime());
 		checkin.setDataSaidaCheckin(null);
-		
+
 		gravar(checkin);
 	}
 
@@ -82,9 +82,9 @@ public class CheckinController extends BaseApiController implements IBaseControl
 		iCheckinDao.excluir(model);
 
 	}
-	
+
 	@Override
-	public List<CheckinEntity> listarTudo()  {
+	public List<CheckinEntity> listarTudo() {
 		return iCheckinDao.obterTodos();
 	}
 
@@ -97,7 +97,7 @@ public class CheckinController extends BaseApiController implements IBaseControl
 		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(nome, null, null);
 		return lista;
 	}
-	
+
 	protected List<CheckinEntity> obterEmAbertoPorDocumento(String documento) {
 		List<CheckinEntity> lista = iCheckinDao.obterEmAberto(null, documento, null);
 		return lista;
