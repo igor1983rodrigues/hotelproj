@@ -17,17 +17,17 @@ public class HospedeController extends BaseApiController implements IBaseControl
 	public void gravar(HospedeEntity model) throws Throwable {
 		StringBuilder strMensagem = new StringBuilder();
 		if ("".equalsIgnoreCase(model.getNomeHospede()))
-			strMensagem.append			("Favor, informar o nome do hospede.\n");
+			strMensagem.append("Favor, informar o nome do hospede.\n");
 
 		if ("".equalsIgnoreCase(model.getDocumentoHospede()))
 			strMensagem.append("Favor, informar o número de documento do hospede.");
 
 		if ("".equalsIgnoreCase(model.getDocumentoHospede()))
 			strMensagem.append("Favor, informar o número de documento do hospede.");
-		
+
 		if (strMensagem.length() > 0)
 			throw new Exception(strMensagem.toString());
-		
+
 		iHospedeDao.inserir(model);
 	}
 
@@ -35,17 +35,17 @@ public class HospedeController extends BaseApiController implements IBaseControl
 	public void atualizar(HospedeEntity model) throws Throwable {
 		StringBuilder strMensagem = new StringBuilder();
 		if ("".equalsIgnoreCase(model.getNomeHospede()))
-			strMensagem.append			("Favor, informar o nome do hospede.\n");
+			strMensagem.append("Favor, informar o nome do hospede.\n");
 
 		if ("".equalsIgnoreCase(model.getDocumentoHospede()))
 			strMensagem.append("Favor, informar o número de documento do hospede.");
 
 		if ("".equalsIgnoreCase(model.getDocumentoHospede()))
 			strMensagem.append("Favor, informar o número de documento do hospede.");
-		
+
 		if (strMensagem.length() > 0)
 			throw new Exception(strMensagem.toString());
-		
+
 		iHospedeDao.alterar(model);
 	}
 
@@ -62,7 +62,7 @@ public class HospedeController extends BaseApiController implements IBaseControl
 	@Override
 	public HospedeEntity listarPorChave(int id) throws Throwable {
 		HospedeEntity model = iHospedeDao.obterPorChave(id);
-		
+
 		if (model == null)
 			throw new Exception("Hospede não encontrado!");
 		return model;
@@ -74,10 +74,10 @@ public class HospedeController extends BaseApiController implements IBaseControl
 
 	public HospedeEntity listarPorDocumento(String nomeDocumento) throws Throwable {
 		HospedeEntity model = iHospedeDao.obterPorDocumento(nomeDocumento);
-		
+
 		if (model != null)
 			throw new Exception("Hospede não encontrado!");
-		
+
 		return model;
 	}
 }
